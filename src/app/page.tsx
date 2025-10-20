@@ -1,103 +1,143 @@
+// app/page.tsx
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <main className="min-h-screen bg-sky-50 text-slate-900">
+      <header className="w-full border-b border-sky-200 bg-white/80 backdrop-blur">
+        <div className="mx-auto max-w-6xl px-4 py-3 flex items-center gap-4">
+          <Image
+            src="/images/dolphin-logo.jpg"
+            alt="Dolphin Fun & Food logo"
+            width={56}
+            height={56}
+            className="rounded-md object-cover"
+            priority
+          />
+          <div>
+            <h1 className="text-xl font-bold tracking-wide">
+              Dolphin <span className="text-sky-600">Fun &amp; Food</span>
+            </h1>
+            <p className="text-sm text-slate-600">
+              Restaurant • Banquets • Water Park
+            </p>
+          </div>
+          <div className="ml-auto text-sm text-sky-700 font-medium">
+            Official site — launching soon
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+      </header>
+
+      <section className="mx-auto max-w-6xl px-4 py-8">
+        <div className="rounded-3xl overflow-hidden shadow-lg bg-white">
           <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+            src="/images/dolphin-banner.jpg"
+            alt="Dolphin Fun & Food banner"
+            width={2400}
+            height={1200}
+            className="w-full h-auto object-cover"
+            priority
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+          <div className="p-6 md:p-10">
+            <h2 className="text-2xl md:text-3xl font-semibold mb-3">Welcome</h2>
+            <p className="text-slate-700 leading-relaxed">
+              A premium 8-acre destination on the highway — fine dining, grand
+              banquets, and a thrilling water park.
+            </p>
+            <p className="mt-4 text-slate-600">
+              This is a placeholder page. We’ll be adding booking, menus,
+              gallery, and more step-by-step.
+            </p>
+            {/* ✅ New CTA button */}
+            <div className="mt-6">
+              <Link
+                href="/banquet-enquiry"
+                className="inline-block rounded-xl bg-sky-600 px-5 py-3 font-medium text-white hover:bg-sky-700"
+              >
+                Book a Banquet Enquiry
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer className="mt-16 border-t border-sky-200">
+        <div className="mx-auto max-w-6xl px-4 py-8 text-center text-sm text-slate-600">
+          © {new Date().getFullYear()} Dolphin Fun &amp; Food
+        </div>
       </footer>
-    </div>
+    </main>
   );
 }
+
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+// export default function Page() {
+//   return <div style={{ padding: 24, fontFamily: "system-ui, Arial" }}>
+//     It works — minimal page.
+//   </div>;
+// }
+
+// import Image from "next/image";
+
+// export default function Home() {
+//   return (
+//     <main className="min-h-screen bg-sky-50 text-slate-900">
+//       <header className="w-full border-b border-sky-200 bg-white/80 backdrop-blur">
+//         <div className="mx-auto max-w-6xl px-4 py-3 flex items-center gap-4">
+//           <Image
+//             src="/images/dolphin-logo.jpg"
+//             alt="Dolphin Fun & Food logo"
+//             width={56}
+//             height={56}
+//             className="rounded-md object-cover"
+//             priority
+//           />
+//           <div>
+//             <h1 className="text-xl font-bold tracking-wide">
+//               Dolphin <span className="text-sky-600">Fun &amp; Food</span>
+//             </h1>
+//             <p className="text-sm text-slate-600">
+//               Restaurant • Banquets • Water Park
+//             </p>
+//           </div>
+//           <div className="ml-auto text-sm text-sky-700 font-medium">
+//             Official site — launching soon
+//           </div>
+//         </div>
+//       </header>
+
+//       <section className="mx-auto max-w-6xl px-4 py-8">
+//         <div className="rounded-3xl overflow-hidden shadow-lg bg-white">
+//           <Image
+//             src="/images/dolphin-banner.jpg"
+//             alt="Dolphin Fun & Food banner"
+//             width={2400}
+//             height={1200}
+//             className="w-full h-auto object-cover"
+//             priority
+//           />
+//           <div className="p-6 md:p-10">
+//             <h2 className="text-2xl md:text-3xl font-semibold mb-3">Welcome</h2>
+//             <p className="text-slate-700 leading-relaxed">
+//               A premium 8-acre destination on the highway — fine dining, grand
+//               banquets, and a thrilling water park.
+//             </p>
+//             <p className="mt-4 text-slate-600">
+//               This is a placeholder page. We’ll be adding booking, menus,
+//               gallery, and more step-by-step.
+//             </p>
+//           </div>
+//         </div>
+//       </section>
+
+//       <footer className="mt-16 border-t border-sky-200">
+//         <div className="mx-auto max-w-6xl px-4 py-8 text-center text-sm text-slate-600">
+//           © <span id="year">{new Date().getFullYear()}</span> Dolphin Fun &amp;
+//           Food
+//         </div>
+//       </footer>
+//     </main>
+//   );
+// }
