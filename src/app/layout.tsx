@@ -1,10 +1,8 @@
-// app/layout.tsx
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import NavBar from "@/components/NavBar";
 import StickyCtas from "./components/StickyCtas";
 
-// TODO: switch to https://www.dolphinfunandfood.com after the domain is live.
 const SITE_URL = "https://dolphin-fun-and-food-dolphin.vercel.app";
 
 export const metadata: Metadata = {
@@ -15,9 +13,7 @@ export const metadata: Metadata = {
   },
   description:
     "Luxurious Restaurant • Banquets • Water Park — an 8-acre destination on the highway.",
-  alternates: {
-    canonical: "/",
-  },
+  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     url: SITE_URL,
@@ -27,7 +23,7 @@ export const metadata: Metadata = {
       "Luxurious Restaurant • Banquets • Water Park — an 8-acre destination.",
     images: [
       {
-        url: "/images/dolphin-banner.jpg", // file in /public/images
+        url: "/images/dolphin-banner.jpg",
         width: 1200,
         height: 630,
         alt: "Dolphin Fun & Food",
@@ -43,54 +39,69 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: "/favicon.ico",
-    apple: "/apple-touch-icon.png", // put a 180x180 in /public
+    apple: "/apple-touch-icon.png", // we'll add this file in step 2
   },
-  themeColor: "#0ea5e9", // subtle blue accent
-  other: {
-    "format-detection": "telephone=no",
-  },
+  // ⛔️ remove themeColor from here
 };
 
+// ✅ put themeColor here instead (supports light/dark if you want)
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#0ea5e9" },
+    { media: "(prefers-color-scheme: dark)", color: "#0b5db3" },
+  ],
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
-      <body className="antialiased">
+      <body className="antialiased pb-24">
         <NavBar />
         {children}
-        <StickyCtas /> {/* ⬅️ mount once, on every page */}
+        <StickyCtas />
       </body>
     </html>
   );
 }
 
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! //
-// import type { Metadata } from "next";
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! //
+// // app/layout.tsx
+// import type { Metadata, Viewport } from "next";
 // import "./globals.css";
 // import NavBar from "@/components/NavBar";
+// import StickyCtas from "./components/StickyCtas";
+
+// // TODO: switch to https://www.dolphinfunandfood.com after the domain is live.
+// const SITE_URL = "https://dolphin-fun-and-food-dolphin.vercel.app";
 
 // export const metadata: Metadata = {
-//   metadataBase: new URL("https://www.dolphinfunandfood.com"),
+//   metadataBase: new URL(SITE_URL),
 //   title: {
 //     default: "Dolphin Fun & Food",
 //     template: "%s | Dolphin Fun & Food",
 //   },
 //   description:
 //     "Luxurious Restaurant • Banquets • Water Park — an 8-acre destination on the highway.",
+//   alternates: {
+//     canonical: "/",
+//   },
 //   openGraph: {
 //     type: "website",
-//     url: "https://www.dolphinfunandfood.com",
+//     url: SITE_URL,
+//     siteName: "Dolphin Fun & Food",
 //     title: "Dolphin Fun & Food",
 //     description:
 //       "Luxurious Restaurant • Banquets • Water Park — an 8-acre destination.",
 //     images: [
 //       {
-//         url: "/images/dolphin-banner.jpg", // lives in /public/images
+//         url: "/images/dolphin-banner.jpg", // file in /public/images
 //         width: 1200,
 //         height: 630,
 //         alt: "Dolphin Fun & Food",
@@ -106,21 +117,28 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 //   },
 //   icons: {
 //     icon: "/favicon.ico",
+//     apple: "/apple-touch-icon.png", // put a 180x180 in /public
+//   },
+//   themeColor: "#0ea5e9", // subtle blue accent
+//   other: {
+//     "format-detection": "telephone=no",
 //   },
 // };
 
-// export default function RootLayout({
-//   children,
-// }: {
-//   children: React.ReactNode;
-// }) {
+// export const viewport: Viewport = {
+//   width: "device-width",
+//   initialScale: 1,
+//   viewportFit: "cover",
+// };
+
+// export default function RootLayout({ children }: { children: React.ReactNode }) {
 //   return (
 //     <html lang="en">
-//       <body>
-//         <NavBar /> {/* <- add this line */}
+//       <body className="antialiased">
+//         <NavBar />
 //         {children}
+//         <StickyCtas /> {/* ⬅️ mount once, on every page */}
 //       </body>
 //     </html>
 //   );
 // }
-
