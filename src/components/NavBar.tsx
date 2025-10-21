@@ -22,6 +22,12 @@ export default function NavBar() {
           <Link href="/gallery" className="hover:text-sky-700">
             Gallery
           </Link>
+          <Link
+            href="/gallery/best-moments"
+            className="font-medium text-sky-700"
+          >
+            Best Moments
+          </Link>
           <Link href="/reels" className="hover:text-sky-700">
             Reels
           </Link>{" "}

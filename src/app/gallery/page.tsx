@@ -1,5 +1,6 @@
 // src/app/gallery/page.tsx
 "use client";
+import Link from "next/link";
 
 import Image from "next/image";
 import { useEffect, useMemo, useState, useCallback } from "react";
@@ -88,6 +89,15 @@ export default function GalleryPage() {
       <h1 className="text-3xl font-semibold mb-6">Gallery</h1>
 
       {/* Tabs */}
+      {/* Best Moments link */}
+      <div className="mb-4">
+        <Link
+          href="/gallery/best-moments"
+          className="inline-flex items-center gap-2 rounded-xl border bg-amber-50 px-4 py-2 text-amber-900 hover:bg-amber-100"
+        >
+          🌟 Best Moments (Today) → View curated highlights
+        </Link>
+      </div>
       <div className="flex gap-2 rounded-2xl bg-sky-50 p-1 w-full sm:w-auto">
         {TABS.map(({ key, label }) => {
           const active = tab === key;
