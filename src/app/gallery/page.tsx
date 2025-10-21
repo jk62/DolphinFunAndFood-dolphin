@@ -40,6 +40,17 @@ const IMAGES: Pic[] = [
     alt: "Sparkling dolphin jump",
     cat: "water-park",
   },
+  {
+    src: "/images/gallery/baloon-01.jpg",
+    alt: "Balloon decor — entrance",
+    cat: "banquets", // or "restaurant" / "water-park"
+  },
+  {
+    src: "/images/gallery/baloon-02.jpg",
+    alt: "Balloon arch for celebration",
+    cat: "banquets",
+  },
+
   // add more…
 ];
 
