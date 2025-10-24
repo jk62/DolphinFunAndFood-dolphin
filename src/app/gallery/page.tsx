@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useMemo, useState, useCallback } from "react";
 
-type Category = "all" | "restaurant" | "banquets" | "water-park";
+type Category = "all" | "restaurant" | "banquets" |"kids-zone" |"water-park";
 type Pic = { src: string; alt: string; cat: Exclude<Category, "all"> };
 
 const IMAGES: Pic[] = [
@@ -50,6 +50,42 @@ const IMAGES: Pic[] = [
     alt: "Balloon arch for celebration",
     cat: "banquets",
   },
+  // Add these to IMAGES:
+  {
+    src: "/images/gallery/veg-01.jpg",
+    alt: "Delicious vegetarian thali and dishes at Dolphin",
+    cat: "restaurant",
+  },
+  {
+    src: "/images/gallery/nonveg-01.jpg",
+    alt: "Signature non-veg specialties at Dolphin",
+    cat: "restaurant",
+  },
+  {
+    src: "/images/gallery/banquet-01.jpg",
+    alt: "Dolphin Banquets — elegant setup",
+    cat: "banquets",
+  },
+  {
+    src: "/images/gallery/splash-02.jpg",
+    alt: "Water park splash action",
+    cat: "water-park",
+  },
+  {
+    src: "/images/gallery/kids-zone-01.jpg",
+    alt: "Kids Zone — soft play and slides",
+    cat: "kids-zone",
+  },
+  {
+    src: "/images/gallery/fish-01.jpg",
+    alt: "Fish World — dolphins & coral vibe artwork",
+    cat: "water-park",
+  },
+  {
+    src: "/images/gallery/striking-cars-01.jpg",
+    alt: "Striking cars — bumper car fun for families",
+    cat: "kids-zone",
+  },
 
   // add more…
 ];
@@ -58,6 +94,7 @@ const TABS: { key: Category; label: string }[] = [
   { key: "all", label: "All" },
   { key: "restaurant", label: "Restaurant" },
   { key: "banquets", label: "Banquets" },
+  { key: "kids-zone", label: "Kids Zone" },
   { key: "water-park", label: "Water Park" },
 ];
 
