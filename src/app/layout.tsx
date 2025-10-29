@@ -63,6 +63,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased pb-24">
+        <div id="fb-root" /> {/* ← add this line */}
         <NavBar />
         {children}
         <StickyCtas />

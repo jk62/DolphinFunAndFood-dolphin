@@ -2,7 +2,10 @@
 import { loadReels } from "@/lib/loadReels";
 import ReelsClient from "./ReelsClient";
 
-export const dynamic = "force-static"; // ok since we read from /public at build
+// export const dynamic = "force-static"; // ok since we read from /public at build
+// src/app/reels/page.tsx
+export const dynamic = "force-dynamic"; // or remove the line entirely
+
 
 export default async function ReelsPage() {
   const data = await loadReels();
