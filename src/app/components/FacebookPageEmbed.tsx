@@ -8,6 +8,7 @@ type Props = {
   height?: number;
   smallHeader?: boolean;
   hideCover?: boolean;
+  responsive?: boolean; // ← NEW
 };
 // Put these near the top of FacebookPageEmbed.tsx
 
@@ -31,29 +32,79 @@ type FBWindow = Window & {
   fbAsyncInit?: () => void;
 };
 
+// export default function FacebookPageEmbed({
+//   href = "https://www.facebook.com/profile.php?id=61582301725295",
+//   width = 360,
+//   height = 420,
+//   smallHeader = true,
+//   hideCover = false,
+// }: Props) {
+//   const ref = useRef<HTMLDivElement | null>(null);
+
+  
+//   useEffect(() => {
+//     const w = window as unknown as FBWindow;
+
+//     if (w.FB?.XFBML) {
+//       w.FB.XFBML.parse(ref.current ?? undefined);
+//       return;
+//     }
+
+//     w.fbAsyncInit = function () {
+//       w.FB?.init?.({ xfbml: true, version: "v20.0" } satisfies FBInitOptions);
+//       w.FB?.XFBML?.parse(ref.current ?? undefined);
+//     };
+
+//     if (!document.getElementById("facebook-jssdk")) {
+//       const s = document.createElement("script");
+//       s.id = "facebook-jssdk";
+//       s.async = true;
+//       s.defer = true;
+//       s.crossOrigin = "anonymous";
+//       s.src = "https://connect.facebook.net/en_US/sdk.js";
+//       document.body.appendChild(s);
+//     }
+//   }, []);
+
+
+//   return (
+//     <div style={{ width, height }}>
+//       <div
+//         ref={ref}
+//         className="fb-page"
+//         data-href={href}
+//         data-tabs="timeline"
+//         data-width={String(width)}
+//         data-height={String(height)}
+//         data-small-header={smallHeader ? "true" : "false"}
+//         data-hide-cover={hideCover ? "true" : "false"}
+//         data-show-facepile="true"
+//         data-adapt-container-width="true"
+//       />
+//     </div>
+//   );
+// }
+//------------------------------------------------------------
 export default function FacebookPageEmbed({
   href = "https://www.facebook.com/profile.php?id=61582301725295",
   width = 360,
-  height = 420,
-  smallHeader = true,
+  height = 500,
+  smallHeader = false,
   hideCover = false,
+  responsive = false, // ← NEW default off
 }: Props) {
   const ref = useRef<HTMLDivElement | null>(null);
 
-  
   useEffect(() => {
     const w = window as unknown as FBWindow;
-
     if (w.FB?.XFBML) {
       w.FB.XFBML.parse(ref.current ?? undefined);
       return;
     }
-
     w.fbAsyncInit = function () {
-      w.FB?.init?.({ xfbml: true, version: "v20.0" } satisfies FBInitOptions);
+      w.FB?.init?.({ xfbml: true, version: "v20.0" } as FBInitOptions);
       w.FB?.XFBML?.parse(ref.current ?? undefined);
     };
-
     if (!document.getElementById("facebook-jssdk")) {
       const s = document.createElement("script");
       s.id = "facebook-jssdk";
@@ -65,15 +116,18 @@ export default function FacebookPageEmbed({
     }
   }, []);
 
+  const outerStyle = responsive
+    ? { width: "100%", minHeight: height }
+    : { width, height };
 
   return (
-    <div style={{ width, height }}>
+    <div style={outerStyle}>
       <div
         ref={ref}
         className="fb-page"
         data-href={href}
         data-tabs="timeline"
-        data-width={String(width)}
+        {...(!responsive ? { "data-width": String(width) } : {})} // omit width in responsive mode
         data-height={String(height)}
         data-small-header={smallHeader ? "true" : "false"}
         data-hide-cover={hideCover ? "true" : "false"}
@@ -83,6 +137,7 @@ export default function FacebookPageEmbed({
     </div>
   );
 }
+//------------------------------------------------------------
 
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! //
 // // app/components/FacebookPageEmbed.tsx
