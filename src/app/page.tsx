@@ -7,6 +7,9 @@ import { useEffect, useRef, useState } from "react";
 import FacebookPageEmbed from "./components/FacebookPageEmbed";
 import GalleryCarousel from "./components/GalleryCarousel";
 
+import FacebookPageEmbedShell from "./components/FacebookPageEmbedShell";
+
+
 type GalleryItem = { src: string; alt?: string };
 type ReelItem = { src: string; poster?: string };
 
@@ -214,14 +217,7 @@ export default function Home() {
 
         {/* RIGHT (desktop only): Facebook page fixed box */}
         <div className="hidden md:block absolute right-4 top-1/2 -translate-y-1/2 z-10">
-          <div className="rounded-2xl bg-white/80 backdrop-blur p-3 shadow-xl">
-            <FacebookPageEmbed
-              width={360}
-              height={500}
-              smallHeader={false}
-              hideCover={false}
-            />
-          </div>
+          <FacebookPageEmbedShell />
         </div>
       </section>
 
@@ -316,8 +312,8 @@ export default function Home() {
   );
 }
 
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! //
-// CODE BELOW IS DESKTOP LAPTOP FRIENDLY ONLY
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! //
+// CODE BELOW WITH TABABLE FACEBOOK PAGE
 // // src/app/page.tsx
 // "use client";
 
@@ -335,12 +331,15 @@ export default function Home() {
 //   { src: "/images/gallery/baloon-02.jpg", alt: "Balloon arch — celebration" },
 // ];
 
-// /** Inline reels slider (avoids any import/path cache issues) */
-// /** Inline reels slider with reliable autoplay */
+// /** Reels slider (desktop: fixed 360 box; mobile: fluid full-width 9:16) */
 // function InlineHeroReels({
 //   videos,
+//   fixed = false,
+//   className = "",
 // }: {
 //   videos: { src: string; poster?: string }[];
+//   fixed?: boolean; // true for 360x360 box (desktop hero slot)
+//   className?: string;
 // }) {
 //   const [i, setI] = useState(0);
 //   const [paused, setPaused] = useState(false);
@@ -349,7 +348,7 @@ export default function Home() {
 //   const vref = useRef<HTMLVideoElement | null>(null);
 //   const hostRef = useRef<HTMLDivElement | null>(null);
 
-//   // Observe visibility: only try playing when in viewport
+//   // Only autoplay when visible
 //   useEffect(() => {
 //     const el = hostRef.current;
 //     if (!el) return;
@@ -361,34 +360,26 @@ export default function Home() {
 //     return () => io.disconnect();
 //   }, []);
 
-//   // Try to (auto)play whenever index/visibility changes
+//   // Attempt autoplay on index/visibility change
 //   useEffect(() => {
 //     const v = vref.current;
 //     if (!v || !visible) return;
-
 //     setNeedTap(false);
-//     // important: set attributes BEFORE play
 //     v.muted = true;
 //     v.playsInline = true;
-
-//     const tryPlay = () =>
-//       v.play().catch(() => {
-//         // autoplay blocked; ask for one tap
-//         setNeedTap(true);
-//       });
-
+//     const tryPlay = () => v.play().catch(() => setNeedTap(true));
 //     if (v.readyState >= 2) tryPlay();
 //     else {
-//       const onCanPlay = () => {
-//         v.removeEventListener("canplay", onCanPlay);
+//       const on = () => {
+//         v.removeEventListener("canplay", on);
 //         tryPlay();
 //       };
-//       v.addEventListener("canplay", onCanPlay);
-//       return () => v.removeEventListener("canplay", onCanPlay);
+//       v.addEventListener("canplay", on);
+//       return () => v.removeEventListener("canplay", on);
 //     }
 //   }, [i, visible]);
 
-//   // Auto-advance every 7s (pause on hover)
+//   // Auto advance every 7s (pause on hover)
 //   useEffect(() => {
 //     if (!videos.length || paused || !visible) return;
 //     const id = setInterval(() => setI((p) => (p + 1) % videos.length), 7000);
@@ -403,12 +394,16 @@ export default function Home() {
 //   return (
 //     <div
 //       ref={hostRef}
-//       className="relative rounded-2xl overflow-hidden shadow-xl bg-white/80 backdrop-blur"
-//       style={{ width: 360, height: 360 }}
+//       className={
+//         "relative rounded-2xl overflow-hidden shadow-xl bg-white/80 backdrop-blur " +
+//         (fixed ? "" : "w-full aspect-[9/16]") + // fluid vertical on mobile
+//         " " +
+//         className
+//       }
+//       style={fixed ? { width: 360, height: 360 } : undefined}
 //       onMouseEnter={() => setPaused(true)}
 //       onMouseLeave={() => setPaused(false)}
 //       onPointerDown={() => {
-//         // one-time user gesture unlock
 //         const v = vref.current;
 //         if (!v) return;
 //         v.muted = true;
@@ -430,10 +425,9 @@ export default function Home() {
 //         preload="metadata"
 //         className="block w-full h-full object-cover"
 //         onEnded={next}
-//         onError={() => next()}
+//         onError={next}
 //       />
 
-//       {/* Tap overlay if autoplay blocked */}
 //       {needTap && (
 //         <div className="absolute inset-0 grid place-items-center bg-black/35 text-white">
 //           <span className="rounded-full bg-white/90 text-black px-3 py-1 text-sm shadow">
@@ -462,7 +456,9 @@ export default function Home() {
 //             {videos.map((_, idx) => (
 //               <span
 //                 key={idx}
-//                 className={`h-1.5 w-4 rounded-full ${idx === i ? "bg-white" : "bg-white/50"}`}
+//                 className={`h-1.5 w-4 rounded-full ${
+//                   idx === i ? "bg-white" : "bg-white/50"
+//                 }`}
 //               />
 //             ))}
 //           </div>
@@ -477,11 +473,13 @@ export default function Home() {
 //   const [gallery, setGallery] = useState<GalleryItem[]>([]);
 //   const [reels, setReels] = useState<ReelItem[]>([]);
 
+//   // Rotate hero background
 //   useEffect(() => {
 //     const id = setInterval(() => setI((p) => (p + 1) % HERO.length), 4000);
 //     return () => clearInterval(id);
 //   }, []);
 
+//   // Load images + reels
 //   useEffect(() => {
 //     let cancel = false;
 //     (async () => {
@@ -502,7 +500,7 @@ export default function Home() {
 
 //   return (
 //     <main className="min-h-screen bg-sky-50 text-slate-900">
-//       {/* HERO */}
+//       {/* HERO (desktop keeps side panels; mobile shows only the background + title) */}
 //       <section className="relative h-[48vh] min-h-[480px] w-full overflow-hidden bg-slate-200">
 //         <Image
 //           key={HERO[i].src}
@@ -523,29 +521,27 @@ export default function Home() {
 //           </p>
 //         </div>
 
-//         {/* LEFT: inline reels panel */}
+//         {/* LEFT (desktop only): reels fixed box */}
 //         {reels.length > 0 && (
-//           <div className="absolute left-4 top-1/2 -translate-y-1/2 z-50">
-//             <InlineHeroReels videos={reels} />
+//           <div className="hidden md:block absolute left-4 top-1/2 -translate-y-1/2 z-50">
+//             <InlineHeroReels videos={reels} fixed />
 //           </div>
 //         )}
 
-//         {/* RIGHT: FB page */}
+//         {/* RIGHT (desktop only): Facebook page fixed box */}
 //         <div className="hidden md:block absolute right-4 top-1/2 -translate-y-1/2 z-10">
-//           <div className="w-[360px] rounded-2xl bg-white/80 backdrop-blur p-3 shadow-xl">
-//             {/* <FacebookPageEmbed height={360} />
-//              */}
+//           <div className="rounded-2xl bg-white/80 backdrop-blur p-3 shadow-xl">
 //             <FacebookPageEmbed
 //               width={360}
-//               height={500} // ↑ taller so cover + first post fit
-//               smallHeader={false} // large header
-//               hideCover={false} // show the cover photo
+//               height={500}
+//               smallHeader={false}
+//               hideCover={false}
 //             />
 //           </div>
 //         </div>
 //       </section>
 
-//       {/* Header */}
+//       {/* HEADER */}
 //       <header className="w-full border-b border-sky-200 bg-white/80 backdrop-blur">
 //         <div className="mx-auto max-w-6xl px-4 py-3 flex items-center gap-4">
 //           <Image
@@ -570,7 +566,7 @@ export default function Home() {
 //         </div>
 //       </header>
 
-//       {/* Welcome with gallery */}
+//       {/* WELCOME + GALLERY */}
 //       <section className="mx-auto max-w-6xl px-4 py-8">
 //         <div className="rounded-3xl overflow-hidden shadow-lg bg-white">
 //           {gallery.length > 0 ? (
@@ -607,22 +603,26 @@ export default function Home() {
 //         </div>
 //       </section>
 
-//       {/* Mobile embeds */}
-//       <section className="md:hidden mx-auto max-w-6xl px-4 space-y-8">
+//       {/* MOBILE STACKED EMBEDS */}
+//       <section className="md:hidden mx-auto max-w-6xl px-4 space-y-6 mt-6">
 //         {reels.length > 0 && (
-//           <div className="flex justify-center">
-//             <div className="w-full max-w-[500px]">
-//               <InlineHeroReels videos={reels} />
-//             </div>
+//           <div className="rounded-2xl overflow-hidden shadow">
+//             {/* Fluid 9:16 reels on mobile */}
+//             <InlineHeroReels videos={reels} />
 //           </div>
 //         )}
-//         <div className="flex justify-center pb-6">
-//           <div className="w-full max-w-[500px]">
-//             <FacebookPageEmbed height={600} />
-//           </div>
+//         <div className="rounded-2xl overflow-hidden shadow">
+//           {/* Responsive FB embed (auto-width) */}
+//           <FacebookPageEmbed
+//             height={520}
+//             smallHeader={false}
+//             hideCover={false}
+//             responsive
+//           />
 //         </div>
 //       </section>
 
+//       {/* FOOTER */}
 //       <footer className="mt-16 border-t border-sky-200">
 //         <div className="mx-auto max-w-6xl px-4 py-8 text-center text-sm text-slate-600">
 //           © {new Date().getFullYear()} Dolphin Fun &amp; Food
