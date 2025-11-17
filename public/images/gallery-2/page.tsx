@@ -1,54 +1,60 @@
-// src/app/gallery/GalleryClient.tsx
+// app/gallery/page.tsx
 "use client";
 
 import Image from "next/image";
-import { useEffect, useMemo, useState, useCallback } from "react";
-import type { Pic } from "@/lib/loadGallery";
+import { useState, useMemo, useEffect } from "react";
 
-type Category = "all" | "restaurant" | "banquets" | "kids-zone" | "water-park";
+type Category = "all" | "restaurant" | "banquets" | "water-park";
+type Pic = { src: string; alt: string; cat: Exclude<Category, "all"> };
+
+const IMAGES: Pic[] = [
+  {
+    src: "/images/gallery/dolphin_building.jpg",
+    alt: "Dolphin Fun & Food — facade",
+    cat: "banquets",
+  },
+  {
+    src: "/images/gallery/dolphin_veg_nonveg_delights.jpg",
+    alt: "Veg & Non-Veg delights",
+    cat: "restaurant",
+  },
+  {
+    src: "/images/gallery/dolphin2.jpg",
+    alt: "Dolphin at sunset",
+    cat: "water-park",
+  },
+  {
+    src: "/images/gallery/wave1.jpg",
+    alt: "Underwater family fun",
+    cat: "water-park",
+  },
+  // Add more and tag them!
+];
 
 const TABS: { key: Category; label: string }[] = [
   { key: "all", label: "All" },
   { key: "restaurant", label: "Restaurant" },
   { key: "banquets", label: "Banquets" },
-  { key: "kids-zone", label: "Kids Zone" },
   { key: "water-park", label: "Water Park" },
 ];
 
-export default function GalleryClient({ images }: { images: Pic[] }) {
+export default function GalleryPage() {
   const [tab, setTab] = useState<Category>("all");
   const [openIdx, setOpenIdx] = useState<number | null>(null);
 
+  // Filter by tab
   const list = useMemo(
-    () => (tab === "all" ? images : images.filter((p) => p.cat === tab)),
-    [tab, images]
+    () => (tab === "all" ? IMAGES : IMAGES.filter((p) => p.cat === tab)),
+    [tab]
   );
 
+  // When tab changes, close lightbox
   useEffect(() => setOpenIdx(null), [tab]);
 
-  const goPrev = useCallback(() => {
-    if (openIdx === null || list.length === 0) return;
-    setOpenIdx((openIdx + list.length - 1) % list.length);
-  }, [openIdx, list.length]);
-
-  const goNext = useCallback(() => {
-    if (openIdx === null || list.length === 0) return;
-    setOpenIdx((openIdx + 1) % list.length);
-  }, [openIdx, list.length]);
-
-  useEffect(() => {
-    if (openIdx === null) return;
-    function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") setOpenIdx(null);
-      else if (e.key === "ArrowLeft") goPrev();
-      else if (e.key === "ArrowRight") goNext();
-    }
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [openIdx, goPrev, goNext]);
-
   return (
-    <>
+    <main className="mx-auto max-w-6xl px-4 py-10">
+      <h1 className="text-3xl font-semibold mb-6">Gallery</h1>
+
       {/* Tabs */}
       <div className="flex gap-2 rounded-2xl bg-sky-50 p-1 w-full sm:w-auto">
         {TABS.map(({ key, label }) => {
@@ -114,26 +120,12 @@ export default function GalleryClient({ images }: { images: Pic[] }) {
             >
               Close
             </button>
-            <button
-              onClick={goPrev}
-              aria-label="Previous image"
-              className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-white/90 px-3 py-2 text-lg shadow hover:bg-white"
-            >
-              ←
-            </button>
-            <button
-              onClick={goNext}
-              aria-label="Next image"
-              className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-white/90 px-3 py-2 text-lg shadow hover:bg-white"
-            >
-              →
-            </button>
             <div className="absolute left-0 right-0 bottom-0 bg-black/60 text-white text-sm p-2 text-center rounded-b-2xl">
               {list[openIdx].alt}
             </div>
           </div>
         </dialog>
       )}
-    </>
+    </main>
   );
 }
