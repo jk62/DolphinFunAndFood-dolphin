@@ -40,14 +40,35 @@ const FEATURED_SLIDES = [
     tagline: "Bump into happiness — one ride at a time!",
   },
   {
-    src: "/images/gallery/pic-06.jpg",
+    src: "/images/gallery/pic-06.png",
     alt: "Opening Shortly Balloon 1",
     tagline: "Murthal’s New Destination for Food, Fun & Family!",
   },
   {
-    src: "/images/gallery/pic-07.jpg",
+    src: "/images/gallery/pic-07.png",
     alt: "Opening Shortly Balloon 2",
     tagline: "Highway’s Happiest Stop — Opening Shortly!",
+  },
+
+  {
+    src: "/images/gallery/pic-08.png",
+    alt: "Yellow & White Balloon in the Sky ",
+    tagline: "Highway’s Happiest Stop — Open Now!",
+  },
+  {
+    src: "/images/gallery/pic-09.png",
+    alt: "Dolphin at your service ",
+    tagline: "When Hunger Strikes… Dive to Dolphin!",
+  },
+  {
+    src: "/images/gallery/pic-10.png",
+    alt: "Dolphin in the service of Buddha",
+    tagline: "When a Dolphin Serves, Even Buddha Smiles.",
+  },
+  {
+    src: "/images/gallery/pic-11.png",
+    alt: "Ganpati Bappa’s Blessings…",
+    tagline: "Bappa’s Blessings, Dolphin’s Devotion — A Heavenly Moment.",
   },
 ];
 
