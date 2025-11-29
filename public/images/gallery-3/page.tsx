@@ -1,4 +1,4 @@
-// public/images/gallery-3/page.tsx
+// app/gallery/page.tsx
 "use client";
 
 import Image from "next/image";
