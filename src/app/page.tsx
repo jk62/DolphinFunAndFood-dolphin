@@ -397,7 +397,6 @@ export default function Home() {
 
   // gallery-3 full-bleed slideshow state
   const [g3Index, setG3Index] = useState(0);
-  const [g3Loaded, setG3Loaded] = useState(false); // NEW: fade-in state
 
   // Load images + reels from /api/media
   useEffect(() => {
@@ -444,11 +443,6 @@ export default function Home() {
     );
     return () => clearInterval(id);
   }, []);
-
-  // reset fade flag whenever image index changes
-  useEffect(() => {
-    setG3Loaded(false);
-  }, [g3Index]);
 
   const g3Current = GALLERY3_IMAGES[g3Index];
 
@@ -535,10 +529,8 @@ export default function Home() {
                 alt={g3Current.alt ?? "Dolphin Fun & Food gallery"}
                 fill
                 sizes="100vw"
-                className={`object-cover transition-opacity duration-700 ${
-                  g3Loaded ? "opacity-100" : "opacity-0"
-                }`}
-                onLoad={() => setG3Loaded(true)}
+                className="object-cover"
+                priority={g3Index === 0}
               />
             </div>
           </div>
