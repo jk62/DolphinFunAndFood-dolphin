@@ -538,7 +538,7 @@ export default function Home() {
                 className={`object-cover transition-opacity duration-700 ${
                   g3Loaded ? "opacity-100" : "opacity-0"
                 }`}
-                onLoadingComplete={() => setG3Loaded(true)}
+                onLoad={() => setG3Loaded(true)}
               />
             </div>
           </div>
