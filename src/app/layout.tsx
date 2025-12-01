@@ -1,4 +1,6 @@
+// src/app/layout.tsx
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import "./globals.css";
 import NavBar from "@/components/NavBar";
 import StickyCtas from "./components/StickyCtas";
@@ -39,12 +41,10 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: "/favicon.ico",
-    apple: "/apple-touch-icon.png", // we'll add this file in step 2
+    apple: "/apple-touch-icon.png",
   },
-  // ⛔️ remove themeColor from here
 };
 
-// ✅ put themeColor here instead (supports light/dark if you want)
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
@@ -62,8 +62,23 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        {/* Google tag (gtag.js) */}
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=AW-XXXXXXXXXX" // 👈 put your AW ID here
+        />
+        <Script id="google-ads-tag" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-XXXXXXXXXX'); // 👈 same AW ID here
+          `}
+        </Script>
+      </head>
       <body className="antialiased pb-24">
-        <div id="fb-root" /> {/* ← add this line */}
+        <div id="fb-root" />
         <NavBar />
         {children}
         <StickyCtas />
@@ -72,14 +87,15 @@ export default function RootLayout({
   );
 }
 
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! //
-// // app/layout.tsx
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! //
+
+// code below with google tag
+// // src/app/layout.tsx
 // import type { Metadata, Viewport } from "next";
 // import "./globals.css";
 // import NavBar from "@/components/NavBar";
 // import StickyCtas from "./components/StickyCtas";
 
-// // TODO: switch to https://www.dolphinfunandfood.com after the domain is live.
 // const SITE_URL = "https://dolphin-fun-and-food-dolphin.vercel.app";
 
 // export const metadata: Metadata = {
@@ -90,9 +106,7 @@ export default function RootLayout({
 //   },
 //   description:
 //     "Luxurious Restaurant • Banquets • Water Park — an 8-acre destination on the highway.",
-//   alternates: {
-//     canonical: "/",
-//   },
+//   alternates: { canonical: "/" },
 //   openGraph: {
 //     type: "website",
 //     url: SITE_URL,
@@ -102,7 +116,7 @@ export default function RootLayout({
 //       "Luxurious Restaurant • Banquets • Water Park — an 8-acre destination.",
 //     images: [
 //       {
-//         url: "/images/dolphin-banner.jpg", // file in /public/images
+//         url: "/images/dolphin-banner.jpg",
 //         width: 1200,
 //         height: 630,
 //         alt: "Dolphin Fun & Food",
@@ -118,27 +132,34 @@ export default function RootLayout({
 //   },
 //   icons: {
 //     icon: "/favicon.ico",
-//     apple: "/apple-touch-icon.png", // put a 180x180 in /public
+//     apple: "/apple-touch-icon.png", // we'll add this file in step 2
 //   },
-//   themeColor: "#0ea5e9", // subtle blue accent
-//   other: {
-//     "format-detection": "telephone=no",
-//   },
+//   // ⛔️ remove themeColor from here
 // };
 
+// // ✅ put themeColor here instead (supports light/dark if you want)
 // export const viewport: Viewport = {
 //   width: "device-width",
 //   initialScale: 1,
 //   viewportFit: "cover",
+//   themeColor: [
+//     { media: "(prefers-color-scheme: light)", color: "#0ea5e9" },
+//     { media: "(prefers-color-scheme: dark)", color: "#0b5db3" },
+//   ],
 // };
 
-// export default function RootLayout({ children }: { children: React.ReactNode }) {
+// export default function RootLayout({
+//   children,
+// }: {
+//   children: React.ReactNode;
+// }) {
 //   return (
 //     <html lang="en">
-//       <body className="antialiased">
+//       <body className="antialiased pb-24">
+//         <div id="fb-root" /> {/* ← add this line */}
 //         <NavBar />
 //         {children}
-//         <StickyCtas /> {/* ⬅️ mount once, on every page */}
+//         <StickyCtas />
 //       </body>
 //     </html>
 //   );
