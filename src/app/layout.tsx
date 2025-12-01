@@ -4,6 +4,8 @@ import Script from "next/script";
 import "./globals.css";
 import NavBar from "@/components/NavBar";
 import StickyCtas from "./components/StickyCtas";
+import GoogleTag from "./components/GoogleTag";
+
 
 const SITE_URL = "https://dolphin-fun-and-food-dolphin.vercel.app";
 
@@ -78,6 +80,7 @@ export default function RootLayout({
         </Script>
       </head>
       <body className="antialiased pb-24">
+        <GoogleTag /> {/* ← Google Ads tag */}
         <div id="fb-root" />
         <NavBar />
         {children}
