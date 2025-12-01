@@ -1,3 +1,4 @@
+// src/app/components/GoogleTag.tsx
 "use client";
 
 import Script from "next/script";

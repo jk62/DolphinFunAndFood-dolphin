@@ -1,13 +1,12 @@
 // src/app/layout.tsx
-import type { Metadata, Viewport } from "next";
-import Script from "next/script";
+// src/app/layout.tsx
 import "./globals.css";
+import type { Metadata, Viewport } from "next";
 import NavBar from "@/components/NavBar";
 import StickyCtas from "./components/StickyCtas";
-import GoogleTag from "./components/GoogleTag";
 
-
-const SITE_URL = "https://dolphin-fun-and-food-dolphin.vercel.app";
+const SITE_URL = "https://dolphinfunandfood.com";
+const GOOGLE_ADS_ID = "AW-1776989853";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -65,23 +64,23 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Google tag (gtag.js) */}
-        <Script
+        {/* ✅ Plain Google Ads tag, no next/script, no environment vars */}
+        <script
           async
-          src="https://www.googletagmanager.com/gtag/js?id=AW-XXXXXXXXXX" // 👈 put your AW ID here
+          src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ADS_ID}`}
+        ></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', '${GOOGLE_ADS_ID}');
+            `,
+          }}
         />
-        <Script id="google-ads-tag" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'AW-XXXXXXXXXX'); // 👈 same AW ID here
-          `}
-        </Script>
       </head>
       <body className="antialiased pb-24">
-        <GoogleTag /> {/* ← Google Ads tag */}
-        <div id="fb-root" />
         <NavBar />
         {children}
         <StickyCtas />
