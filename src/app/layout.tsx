@@ -5,7 +5,7 @@ import type { Metadata, Viewport } from "next";
 import NavBar from "@/components/NavBar";
 import StickyCtas from "./components/StickyCtas";
 
-const SITE_URL = "https://dolphinfunandfood.com";
+const SITE_URL = "https://www.dolphinfunandfood.com";
 const GOOGLE_ADS_ID = "AW-1776989853";
 
 export const metadata: Metadata = {
