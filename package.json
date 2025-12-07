@@ -14,10 +14,10 @@
     "dayjs": "^1.11.18",
     "jose": "^6.1.0",
     "nanoid": "^5.1.6",
-    "next": "15.5.6",
+    "next": "^15.5.7",
     "qrcode": "^1.5.4",
-    "react": "19.1.0",
-    "react-dom": "19.1.0",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
     "resend": "^6.2.0",
     "sharp": "^0.34.5",
     "zod": "^4.1.12"
@@ -30,7 +30,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "15.5.6",
+    "eslint-config-next": "^15.5.7",
     "tailwindcss": "^4",
     "typescript": "^5"
   },
