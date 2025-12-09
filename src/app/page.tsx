@@ -14,8 +14,8 @@ type ReelItem = { src: string; poster?: string };
 // MAIN FEATURED SLIDES (band with caption + image)
 const FEATURED_SLIDES = [
   {
-    src: "/images/gallery/pic-01.jpg",
-    alt: "Colourful salad bowl",
+    src: "/images/gallery/pic-01.png",
+    alt: "Feast for eyes and soul",
     tagline: "Fresh, fun, and full of fuel.",
   },
   {
@@ -295,23 +295,61 @@ function InlineHeroReels({
 //------------------------------------------------------------------------------------
 
 function HeroSlideshow() {
+  const REAL_SLIDES = GALLERY3_IMAGES;
+  const TOTAL = REAL_SLIDES.length;
+
+  // Hooks MUST always run, even if TOTAL=0
   const [index, setIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(true);
 
-  // advance every 7s
+  // Build cloned slides (safe even if TOTAL=0)
+  const CLONED_SLIDES =
+    TOTAL > 0 ? [...REAL_SLIDES, REAL_SLIDES[0]] : REAL_SLIDES;
+
+  // Auto-advance
   useEffect(() => {
-    if (!GALLERY3_IMAGES.length) return;
-    const id = setInterval(
-      () => setIndex((prev) => (prev + 1) % GALLERY3_IMAGES.length),
-      7000
-    );
-    return () => clearInterval(id);
-  }, []);
+    if (TOTAL === 0) return;
 
-  const currentBg = GALLERY3_IMAGES[index];
+    const id = setInterval(() => {
+      setIsTransitioning(true);
+      setIndex((prev) => prev + 1);
+    }, 7000);
+
+    return () => clearInterval(id);
+  }, [TOTAL]);
+
+  // Loop logic
+  useEffect(() => {
+    if (TOTAL === 0) return;
+
+    const lastIndex = CLONED_SLIDES.length - 1;
+
+    if (index === lastIndex) {
+      const timeout = setTimeout(() => {
+        setIsTransitioning(false);
+        setIndex(0);
+      }, 700); // match slide duration
+
+      return () => clearTimeout(timeout);
+    } else {
+      setIsTransitioning(true);
+    }
+  }, [index, TOTAL, CLONED_SLIDES.length]);
+
+  // If no slides → show placeholder section (but hooks still ran)
+  if (TOTAL === 0) {
+    return (
+      <section className="min-h-[60vh] bg-sky-100 flex items-center justify-center">
+        <p className="text-slate-500">No hero images found.</p>
+      </section>
+    );
+  }
+
+  const currentBg = REAL_SLIDES[index % TOTAL];
 
   return (
     <section className="relative overflow-hidden min-h-[60vh] md:min-h-[70vh] bg-gradient-to-b from-sky-100 via-sky-50 to-sky-100">
-      {/* blurred background of current image */}
+      {/* blurred background */}
       <div className="absolute inset-0 -z-10 opacity-40">
         <Image
           src={currentBg.src}
@@ -323,24 +361,31 @@ function HeroSlideshow() {
         />
       </div>
 
-      {/* centered backdrop panel */}
+      {/* sliding panel */}
       <div className="relative mx-auto flex h-full max-w-6xl items-center justify-center px-4 py-10">
-        <div className="w-full rounded-[2rem] bg-white/70 shadow-[0_18px_45px_rgba(15,23,42,0.25)] backdrop-blur-md p-4 md:p-6">
+        <div className="w-full rounded-[2rem] bg-white/70 shadow-lg backdrop-blur-md p-4 md:p-6">
           <div className="relative w-full aspect-[3/2] overflow-hidden rounded-[1.5rem]">
-            {/* sliding track with ALL slides */}
             <div
-              className="flex h-full w-full transition-transform duration-700 ease-out"
+              className={
+                "flex h-full w-full " +
+                (isTransitioning
+                  ? "transition-transform duration-700 ease-out"
+                  : "")
+              }
               style={{ transform: `translateX(-${index * 100}%)` }}
             >
-              {GALLERY3_IMAGES.map((img) => (
-                <div key={img.src} className="relative h-full w-full shrink-0">
+              {CLONED_SLIDES.map((img, idx) => (
+                <div
+                  key={idx} // stable key → no flicker
+                  className="relative h-full w-full shrink-0"
+                >
                   <Image
                     src={img.src}
                     alt={img.alt ?? "Dolphin Fun & Food hero image"}
                     fill
                     sizes="100vw"
-                    priority
-                    className="object-contain"
+                    priority={idx === 0}
+                    className="object-cover"
                   />
                 </div>
               ))}
