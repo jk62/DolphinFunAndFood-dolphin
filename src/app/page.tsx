@@ -126,14 +126,14 @@ const GALLERY3_FILES = [
   "pic-14.jpg",
   "pic-15.png",
   "pic-16.jpg",
-  "pic-17.jpg",
+  "pic-17.png",
   "pic-18.jpg",
   "pic-19.jpg",
   "pic-20.png",
   "pic-21.png",
   "pic-22.png",
-  "pic-23.jpg",
-  "pic-24.jpg",
+  "pic-23.png",
+  "pic-24.png",
 ];
 
 const GALLERY3_IMAGES: GalleryItem[] = GALLERY3_FILES.map((file) => ({
