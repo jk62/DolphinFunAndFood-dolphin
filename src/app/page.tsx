@@ -95,10 +95,13 @@ const GALLERY2_FILES = [
   "pic-14.jpg",
   "pic-15.jpg",
   "pic-16.png",
-  "pic-17.jpg",
+  "pic-17.png",
   "pic-18.jpg",
   "pic-19.png",
-  "pic-20.jpg",
+  "pic-20.png",
+  "pic-21.png",
+  "pic-22.png",
+  "pic-23.png",
 ];
 
 const GALLERY2_IMAGES: GalleryItem[] = GALLERY2_FILES.map((file) => ({
@@ -136,6 +139,9 @@ const GALLERY3_FILES = [
   "pic-24.png",
   "pic-25.png",
   "pic-26.png",
+  "pic-27.png",
+  "pic-28.png",
+  "pic-29.png",
 ];
 
 const GALLERY3_IMAGES: GalleryItem[] = GALLERY3_FILES.map((file) => ({
