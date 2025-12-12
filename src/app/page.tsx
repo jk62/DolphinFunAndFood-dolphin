@@ -142,6 +142,9 @@ const GALLERY3_FILES = [
   "pic-27.png",
   "pic-28.png",
   "pic-29.png",
+  "pic-30.png",
+  "pic-31.png",
+  "pic-32.png",
 ];
 
 const GALLERY3_IMAGES: GalleryItem[] = GALLERY3_FILES.map((file) => ({

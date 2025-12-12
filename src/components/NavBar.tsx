@@ -1,3 +1,4 @@
+// src/components/NavBar.tsx
 import Link from "next/link";
 
 export default function NavBar() {
@@ -56,6 +57,9 @@ export default function NavBar() {
           </Link>
           <Link href="/tickets" className="hover:text-sky-700">
             Tickets
+          </Link>
+          <Link href="/menu-image" className="hover:text-sky-700">
+            Menu
           </Link>
         </div>
       </div>
