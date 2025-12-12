@@ -477,7 +477,7 @@ export default function Home() {
           </h1>
 
           <p className="text-slate-200">
-            Restaurant • Banquets • upcoming 8-acre Water Park
+            Restaurant • Banquets • upcoming Water Park largest in NCR
           </p>
 
           {/* ⬇️ TAGLINE + OPEN NOW IN SAME ROW */}
