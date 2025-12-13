@@ -7,6 +7,7 @@ import FacebookPageEmbed from "./components/FacebookPageEmbed";
 import GalleryCarousel from "./components/GalleryCarousel";
 import FacebookPageEmbedShell from "./components/FacebookPageEmbedShell";
 import HeroSwiper from "./components/HeroSwiper";
+import FeaturedSwiper from "./components/FeaturedSwiper";
 
 type GalleryItem = { src: string; alt?: string };
 type ReelItem = { src: string; poster?: string };
@@ -540,14 +541,12 @@ export default function Home() {
         {/* <div className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]">
           <GalleryCarousel slides={FEATURED_SLIDES} ratio="aspect-[16/9]" />
         </div> */}
-        <GalleryCarousel
+        {/* <GalleryCarousel
           slides={FEATURED_SLIDES}
           ratio="md:aspect-[16/9] aspect-auto"
-        />
+        /> */}
 
-        {/* <div className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]">
-          <FeaturedSwiper3up slides={FEATURED_SLIDES} />
-        </div> */}
+        <FeaturedSwiper slides={FEATURED_SLIDES} />
 
         {/* 2️⃣ gallery-2 grid – Water Kingdom style */}
         <section className="w-full bg-white py-10">
