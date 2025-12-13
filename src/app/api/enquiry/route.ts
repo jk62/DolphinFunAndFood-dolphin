@@ -1,4 +1,4 @@
-// app/api/enquiry/route.ts
+// src/app/api/enquiry/route.ts
 
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
