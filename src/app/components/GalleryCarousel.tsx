@@ -17,21 +17,21 @@ function chunk<T>(arr: T[], size: number) {
 
 export default function GalleryCarousel({
   slides,
-  ratio = "aspect-[16/9]",
+  ratio = "",
 }: {
   slides: Slide[];
   ratio?: string;
 }) {
   const TOTAL = slides.length;
-
   const [perPage, setPerPage] = useState(3);
 
+  // Responsive: 3 per page on md+, 1 per page on mobile
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 768px)");
-    const apply = () => setPerPage(mq.matches ? 3 : 1);
-    apply();
-    mq.addEventListener?.("change", apply);
-    return () => mq.removeEventListener?.("change", apply);
+    const onChange = () => setPerPage(mq.matches ? 3 : 1);
+    onChange();
+    mq.addEventListener?.("change", onChange);
+    return () => mq.removeEventListener?.("change", onChange);
   }, []);
 
   const pages = useMemo(() => {
@@ -39,7 +39,10 @@ export default function GalleryCarousel({
     const pg = chunk(slides, perPage);
     if (pg.length && pg[pg.length - 1].length < perPage) {
       const need = perPage - pg[pg.length - 1].length;
-      pg[pg.length - 1] = [...pg[pg.length - 1], ...slides.slice(0, need)];
+      pg[pg.length - 1] = [
+        ...pg[pg.length - 1],
+        ...slides.slice(0, Math.min(need, slides.length)),
+      ];
     }
     return pg;
   }, [slides, perPage, TOTAL]);
@@ -51,52 +54,55 @@ export default function GalleryCarousel({
   const CLONED_PAGES =
     PAGE_TOTAL > 0
       ? [
-          REAL_PAGES[REAL_PAGES.length - 1], // last page clone
+          REAL_PAGES[REAL_PAGES.length - 1], // clone last
           ...REAL_PAGES,
-          REAL_PAGES[0], // first page clone
+          REAL_PAGES[0], // clone first
         ]
       : [];
 
   const START_INDEX = 1;
-
   const [index, setIndex] = useState(START_INDEX);
-  const [isTransitioning, setIsTransitioning] = useState(true);
+  const [transitionEnabled, setTransitionEnabled] = useState(true);
 
+  // Reset index when pages change
   useEffect(() => {
-    if (PAGE_TOTAL === 0) return;
-    setIndex(START_INDEX);
+    if (PAGE_TOTAL > 0) {
+      setIndex(START_INDEX);
+      setTransitionEnabled(true);
+    }
   }, [PAGE_TOTAL]);
 
+  // Auto-advance loop
   useEffect(() => {
     if (PAGE_TOTAL === 0) return;
     const id = setInterval(() => {
-      setIsTransitioning(true);
-      setIndex((p) => p + 1);
+      setTransitionEnabled(true);
+      setIndex((prev) => prev + 1);
     }, 8000);
     return () => clearInterval(id);
   }, [PAGE_TOTAL]);
 
+  // Infinite loop handling
   useEffect(() => {
     if (PAGE_TOTAL === 0) return;
+
     const realLastIndex = REAL_PAGES.length + START_INDEX - 1;
-    const realFirstIndex = START_INDEX;
 
     if (index > realLastIndex) {
       const t = setTimeout(() => {
-        setIsTransitioning(false);
-        setIndex(realFirstIndex);
+        setTransitionEnabled(false);
+        setIndex(START_INDEX);
       }, 700);
       return () => clearTimeout(t);
     }
-    if (index < realFirstIndex) {
+    if (index < START_INDEX) {
       const t = setTimeout(() => {
-        setIsTransitioning(false);
+        setTransitionEnabled(false);
         setIndex(realLastIndex);
       }, 700);
       return () => clearTimeout(t);
     }
-
-    setIsTransitioning(true);
+    setTransitionEnabled(true);
   }, [index, PAGE_TOTAL, REAL_PAGES.length]);
 
   if (PAGE_TOTAL === 0) return null;
@@ -104,12 +110,12 @@ export default function GalleryCarousel({
   const logicalIndex = index - START_INDEX;
 
   const goBy = (delta: number) => {
-    setIsTransitioning(true);
+    setTransitionEnabled(true);
     setIndex((prev) => prev + delta);
   };
 
   const goTo = (target: number) => {
-    setIsTransitioning(true);
+    setTransitionEnabled(true);
     setIndex(target + START_INDEX);
   };
 
@@ -117,13 +123,14 @@ export default function GalleryCarousel({
     <section className="bg-sky-50 py-10">
       <div className="mx-auto max-w-6xl px-4">
         <div className={`relative w-full ${ratio}`}>
+          {/* Background panel */}
           <div className="absolute inset-0 rounded-[2.5rem] bg-white shadow-[0_20px_60px_rgba(15,23,42,0.20)]" />
 
           <div className="relative h-full overflow-hidden rounded-[2.5rem]">
             <div
               className={
                 "flex h-full w-full " +
-                (isTransitioning
+                (transitionEnabled
                   ? "transition-transform duration-700 ease-out"
                   : "")
               }
@@ -138,8 +145,8 @@ export default function GalleryCarousel({
                     {page.map((slide, sIdx) => (
                       <div key={slide.src + sIdx} className="h-full">
                         <div className="relative h-full rounded-[2rem] bg-transparent">
+                          {/* Image */}
                           <div className="relative overflow-hidden rounded-[2rem] shadow-xl">
-                            {/* <div className="relative aspect-[3/4] md:aspect-[4/5]"> */}
                             <div className="relative w-full pb-[125%] md:pb-[80%]">
                               <Image
                                 src={slide.src}
@@ -151,6 +158,7 @@ export default function GalleryCarousel({
                             </div>
                           </div>
 
+                          {/* Text box */}
                           <div className="relative -mt-3 md:-mt-5 px-3">
                             <div className="rounded-[1.75rem] bg-sky-800 text-white shadow-2xl p-5 md:p-6">
                               <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-sky-100/80">
@@ -172,6 +180,7 @@ export default function GalleryCarousel({
               ))}
             </div>
 
+            {/* Arrows */}
             {PAGE_TOTAL > 1 && (
               <>
                 <button
@@ -193,6 +202,7 @@ export default function GalleryCarousel({
               </>
             )}
 
+            {/* Dots */}
             {PAGE_TOTAL > 1 && (
               <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
                 {REAL_PAGES.map((_, i) => (
@@ -213,6 +223,223 @@ export default function GalleryCarousel({
     </section>
   );
 }
+
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! //
+// "use client";
+
+// import Image from "next/image";
+// import { useEffect, useMemo, useState } from "react";
+
+// type Slide = {
+//   src: string;
+//   alt?: string;
+//   tagline: string;
+// };
+
+// function chunk<T>(arr: T[], size: number) {
+//   const out: T[][] = [];
+//   for (let i = 0; i < arr.length; i += size) out.push(arr.slice(i, i + size));
+//   return out;
+// }
+
+// export default function GalleryCarousel({
+//   slides,
+//   ratio = "aspect-[16/9]",
+// }: {
+//   slides: Slide[];
+//   ratio?: string;
+// }) {
+//   const TOTAL = slides.length;
+
+//   const [perPage, setPerPage] = useState(3);
+
+//   useEffect(() => {
+//     const mq = window.matchMedia("(min-width: 768px)");
+//     const apply = () => setPerPage(mq.matches ? 3 : 1);
+//     apply();
+//     mq.addEventListener?.("change", apply);
+//     return () => mq.removeEventListener?.("change", apply);
+//   }, []);
+
+//   const pages = useMemo(() => {
+//     if (!TOTAL) return [];
+//     const pg = chunk(slides, perPage);
+//     if (pg.length && pg[pg.length - 1].length < perPage) {
+//       const need = perPage - pg[pg.length - 1].length;
+//       pg[pg.length - 1] = [...pg[pg.length - 1], ...slides.slice(0, need)];
+//     }
+//     return pg;
+//   }, [slides, perPage, TOTAL]);
+
+//   const PAGE_TOTAL = pages.length;
+
+//   const REAL_PAGES = pages;
+
+//   const CLONED_PAGES =
+//     PAGE_TOTAL > 0
+//       ? [
+//           REAL_PAGES[REAL_PAGES.length - 1], // last page clone
+//           ...REAL_PAGES,
+//           REAL_PAGES[0], // first page clone
+//         ]
+//       : [];
+
+//   const START_INDEX = 1;
+
+//   const [index, setIndex] = useState(START_INDEX);
+//   const [isTransitioning, setIsTransitioning] = useState(true);
+
+//   useEffect(() => {
+//     if (PAGE_TOTAL === 0) return;
+//     setIndex(START_INDEX);
+//   }, [PAGE_TOTAL]);
+
+//   useEffect(() => {
+//     if (PAGE_TOTAL === 0) return;
+//     const id = setInterval(() => {
+//       setIsTransitioning(true);
+//       setIndex((p) => p + 1);
+//     }, 8000);
+//     return () => clearInterval(id);
+//   }, [PAGE_TOTAL]);
+
+//   useEffect(() => {
+//     if (PAGE_TOTAL === 0) return;
+//     const realLastIndex = REAL_PAGES.length + START_INDEX - 1;
+//     const realFirstIndex = START_INDEX;
+
+//     if (index > realLastIndex) {
+//       const t = setTimeout(() => {
+//         setIsTransitioning(false);
+//         setIndex(realFirstIndex);
+//       }, 700);
+//       return () => clearTimeout(t);
+//     }
+//     if (index < realFirstIndex) {
+//       const t = setTimeout(() => {
+//         setIsTransitioning(false);
+//         setIndex(realLastIndex);
+//       }, 700);
+//       return () => clearTimeout(t);
+//     }
+
+//     setIsTransitioning(true);
+//   }, [index, PAGE_TOTAL, REAL_PAGES.length]);
+
+//   if (PAGE_TOTAL === 0) return null;
+
+//   const logicalIndex = index - START_INDEX;
+
+//   const goBy = (delta: number) => {
+//     setIsTransitioning(true);
+//     setIndex((prev) => prev + delta);
+//   };
+
+//   const goTo = (target: number) => {
+//     setIsTransitioning(true);
+//     setIndex(target + START_INDEX);
+//   };
+
+//   return (
+//     <section className="bg-sky-50 py-10">
+//       <div className="mx-auto max-w-6xl px-4">
+//         <div className={`relative w-full ${ratio}`}>
+//           <div className="absolute inset-0 rounded-[2.5rem] bg-white shadow-[0_20px_60px_rgba(15,23,42,0.20)]" />
+
+//           <div className="relative h-full overflow-hidden rounded-[2.5rem]">
+//             <div
+//               className={
+//                 "flex h-full w-full " +
+//                 (isTransitioning
+//                   ? "transition-transform duration-700 ease-out"
+//                   : "")
+//               }
+//               style={{ transform: `translateX(-${index * 100}%)` }}
+//             >
+//               {CLONED_PAGES.map((page, pIdx) => (
+//                 <div
+//                   key={pIdx}
+//                   className="w-full shrink-0 h-full px-5 py-6 md:px-10 md:py-10"
+//                 >
+//                   <div className="h-full grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+//                     {page.map((slide, sIdx) => (
+//                       <div key={slide.src + sIdx} className="h-full">
+//                         <div className="relative h-full rounded-[2rem] bg-transparent">
+//                           <div className="relative overflow-hidden rounded-[2rem] shadow-xl">
+//                             {/* <div className="relative aspect-[3/4] md:aspect-[4/5]"> */}
+//                             <div className="relative w-full pb-[125%] md:pb-[80%]">
+//                               <Image
+//                                 src={slide.src}
+//                                 alt={slide.alt || "Dolphin Fun & Food"}
+//                                 fill
+//                                 sizes="(min-width: 768px) 33vw, 100vw"
+//                                 className="object-cover object-top"
+//                               />
+//                             </div>
+//                           </div>
+
+//                           <div className="relative -mt-3 md:-mt-5 px-3">
+//                             <div className="rounded-[1.75rem] bg-sky-800 text-white shadow-2xl p-5 md:p-6">
+//                               <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-sky-100/80">
+//                                 Dolphin Fun &amp; Food
+//                               </p>
+//                               <h3 className="mt-2 text-lg md:text-xl font-semibold leading-snug">
+//                                 {slide.tagline}
+//                               </h3>
+//                               <p className="mt-2 text-sm text-sky-100/90">
+//                                 NH-44, Ganaur — Food • Family • Full-on Fun
+//                               </p>
+//                             </div>
+//                           </div>
+//                         </div>
+//                       </div>
+//                     ))}
+//                   </div>
+//                 </div>
+//               ))}
+//             </div>
+
+//             {PAGE_TOTAL > 1 && (
+//               <>
+//                 <button
+//                   type="button"
+//                   aria-label="Previous"
+//                   onClick={() => goBy(-1)}
+//                   className="absolute left-4 top-1/2 -translate-y-1/2 hidden md:flex h-10 w-10 items-center justify-center rounded-full bg-black/35 text-white shadow"
+//                 >
+//                   ‹
+//                 </button>
+//                 <button
+//                   type="button"
+//                   aria-label="Next"
+//                   onClick={() => goBy(1)}
+//                   className="absolute right-4 top-1/2 -translate-y-1/2 hidden md:flex h-10 w-10 items-center justify-center rounded-full bg-black/35 text-white shadow"
+//                 >
+//                   ›
+//                 </button>
+//               </>
+//             )}
+
+//             {PAGE_TOTAL > 1 && (
+//               <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
+//                 {REAL_PAGES.map((_, i) => (
+//                   <button
+//                     key={i}
+//                     onClick={() => goTo(i)}
+//                     className={
+//                       "h-1.5 w-6 rounded-full border border-white/40 transition " +
+//                       (i === logicalIndex ? "bg-sky-700" : "bg-sky-300/70")
+//                     }
+//                   />
+//                 ))}
+//               </div>
+//             )}
+//           </div>
+//         </div>
+//       </div>
+//     </section>
+//   );
+// }
 
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! //
 // "use client";

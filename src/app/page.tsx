@@ -8,7 +8,6 @@ import GalleryCarousel from "./components/GalleryCarousel";
 import FacebookPageEmbedShell from "./components/FacebookPageEmbedShell";
 import HeroSwiper from "./components/HeroSwiper";
 
-
 type GalleryItem = { src: string; alt?: string };
 type ReelItem = { src: string; poster?: string };
 
@@ -121,7 +120,7 @@ const GALLERY3_FILES = [
   "pic-04.jpg",
   "pic-05.jpg",
   "pic-06.jpg",
-  "pic-07.jpg",
+  "pic-07.png",
   "pic-08.jpg",
   "pic-09.jpg",
   "pic-10.jpg",
