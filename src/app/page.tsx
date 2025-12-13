@@ -541,6 +541,10 @@ export default function Home() {
           <GalleryCarousel slides={FEATURED_SLIDES} ratio="aspect-[16/9]" />
         </div>
 
+        {/* <div className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]">
+          <FeaturedSwiper3up slides={FEATURED_SLIDES} />
+        </div> */}
+
         {/* 2️⃣ gallery-2 grid – Water Kingdom style */}
         <section className="w-full bg-white py-10">
           <div className="mx-auto max-w-6xl px-4">
