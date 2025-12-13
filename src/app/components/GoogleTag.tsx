@@ -2,7 +2,7 @@
 "use client";
 import Script from "next/script";
 
-const GOOGLE_ADS_ID = "AW-1776989853";
+const GOOGLE_ADS_ID = "AW-17769899853";
 
 export default function GoogleTag() {
   return (
