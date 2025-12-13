@@ -6,6 +6,8 @@ import { useEffect, useRef, useState } from "react";
 import FacebookPageEmbed from "./components/FacebookPageEmbed";
 import GalleryCarousel from "./components/GalleryCarousel";
 import FacebookPageEmbedShell from "./components/FacebookPageEmbedShell";
+import HeroSwiper from "./components/HeroSwiper";
+
 
 type GalleryItem = { src: string; alt?: string };
 type ReelItem = { src: string; poster?: string };
@@ -462,13 +464,11 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-sky-50 text-slate-900">
-      {/* HERO: pure full-screen background slideshow */}
-      {/* HERO: centered image with blurred background, no cropping */}
       {/* HERO: slideshow on a soft backdrop panel */}
-      <HeroSlideshow />
-
+      {/* <HeroSlideshow /> */}
+      {/* HERO: Swiper carousel */}
+      <HeroSwiper slides={GALLERY3_IMAGES} />
       {/* ...rest of your sections stay as they are */}
-
       {/* TITLE BAND moved BELOW hero slideshow */}
       <section className="bg-black/45 backdrop-blur-sm text-white w-full">
         <div className="mx-auto max-w-7xl px-4 py-4 text-center">
@@ -499,7 +499,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
       {/* INLINE REELS ROW (below hero) */}
       <section className="bg-sky-50">
         <div className="mx-auto max-w-7xl px-4 py-8">
@@ -511,7 +510,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
       {/* HEADER BAR */}
       <header className="w-full border-b border-sky-200 bg-white/80 backdrop-blur">
         <div className="mx-auto max-w-6xl px-4 py-3 flex items-center gap-4">
@@ -536,7 +534,6 @@ export default function Home() {
           </div>
         </div>
       </header>
-
       {/* FEATURED BAND + TILE GALLERY + FB + WELCOME */}
       <section className="w-full bg-sky-50">
         {/* 1️⃣ Full-bleed caption+image slideshow (edge-to-edge) */}
@@ -594,7 +591,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
       {/* MOBILE STACKED EMBEDS */}
       <section className="md:hidden mx-auto max-w-6xl px-4 space-y-6 mt-6">
         {mobileReels.length > 0 && (
@@ -611,7 +607,6 @@ export default function Home() {
           />
         </div>
       </section>
-
       {/* FOOTER */}
       <footer className="mt-16 border-t border-sky-200">
         <div className="mx-auto max-w-6xl px-4 py-8 text-center text-sm text-slate-600">
