@@ -537,9 +537,13 @@ export default function Home() {
       {/* FEATURED BAND + TILE GALLERY + FB + WELCOME */}
       <section className="w-full bg-sky-50">
         {/* 1️⃣ Full-bleed caption+image slideshow (edge-to-edge) */}
-        <div className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]">
+        {/* <div className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]">
           <GalleryCarousel slides={FEATURED_SLIDES} ratio="aspect-[16/9]" />
-        </div>
+        </div> */}
+        <GalleryCarousel
+          slides={FEATURED_SLIDES}
+          ratio="md:aspect-[16/9] aspect-auto"
+        />
 
         {/* <div className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]">
           <FeaturedSwiper3up slides={FEATURED_SLIDES} />

@@ -139,7 +139,8 @@ export default function GalleryCarousel({
                       <div key={slide.src + sIdx} className="h-full">
                         <div className="relative h-full rounded-[2rem] bg-transparent">
                           <div className="relative overflow-hidden rounded-[2rem] shadow-xl">
-                            <div className="relative aspect-[3/4] md:aspect-[4/5]">
+                            {/* <div className="relative aspect-[3/4] md:aspect-[4/5]"> */}
+                            <div className="relative w-full pb-[125%] md:pb-[80%]">
                               <Image
                                 src={slide.src}
                                 alt={slide.alt || "Dolphin Fun & Food"}
