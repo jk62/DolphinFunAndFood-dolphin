@@ -1,3 +1,4 @@
+// src/app/thank-you/ThankYouClient.tsx
 "use client";
 
 import Link from "next/link";
@@ -42,10 +43,10 @@ export default function ThankYouClient() {
         <div className="text-sm text-slate-600">
           Prefer email?{" "}
           <a
-            href="mailto:hello@dolphinfunandfood.com"
+            href="mailto:info@dolphinfunandfood.com"
             className="text-sky-700 underline"
           >
-            hello@dolphinfunandfood.com
+            info@dolphinfunandfood.com
           </a>
         </div>
 

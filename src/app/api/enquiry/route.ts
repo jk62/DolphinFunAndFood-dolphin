@@ -43,6 +43,7 @@ export async function POST(req: Request) {
       // to: [TO],
       from: "Dolphin Enquiries <info@dolphinfunandfood.com>",
       to: "info@dolphinfunandfood.com",
+      replyTo: data.email,
 
       subject: `Banquet Enquiry: ${data.name} (${data.guests} guests)`,
       html: htmlTemplate(data),
