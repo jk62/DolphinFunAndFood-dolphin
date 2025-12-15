@@ -37,7 +37,9 @@ export async function POST(req: Request) {
 
     // Send the email
     const { error } = await resend.emails.send({
-      from: "Dolphin Enquiries <onboarding@resend.dev>", // works without domain setup
+      // from: "Dolphin Enquiries <info@dolphinfunandfood.com>",
+      from: "Dolphin Enquiries <info@send.dolphinfunandfood.com>",
+
       to: [TO],
       subject: `Banquet Enquiry: ${data.name} (${data.guests} guests)`,
       html: htmlTemplate(data),
@@ -57,7 +59,10 @@ ${data.message || "-"}
 
     if (error) {
       console.error("Resend error:", error);
-      return NextResponse.json({ error: "Email send failed" }, { status: 500 });
+      return NextResponse.json(
+        { error: error.message || "Email send failed", details: error },
+        { status: 500 }
+      );
     }
 
     return NextResponse.json({ ok: true });
