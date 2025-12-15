@@ -75,6 +75,11 @@ const FEATURED_SLIDES = [
     alt: "Palm Breeze, Blue Seas, Big Smiles.",
     tagline: "From Ocean Vibes to High-Energy Rides!",
   },
+  {
+    src: "/images/gallery/pic-13.png",
+    alt: "Dolphin: Fun & Food, Showered with Buddha's Grace.",
+    tagline: "Buddha Smiles Upon Dolphin: Your New Spot for Fun & Friends.",
+  },
 ];
 
 //----------------------------------------
@@ -88,7 +93,7 @@ const GALLERY2_FILES = [
   "pic-05.jpg",
   "pic-06.jpg",
   "pic-07.jpg",
-  "pic-08.jpg",
+  "pic-08.png",
   "pic-09.png",
   "pic-10.jpg",
   "pic-11.jpg",
@@ -130,7 +135,7 @@ const GALLERY3_FILES = [
   "pic-13.jpg",
   "pic-14.jpg",
   "pic-15.png",
-  "pic-16.jpg",
+  "pic-16.png",
   "pic-17.png",
   "pic-18.jpg",
   "pic-19.png",
