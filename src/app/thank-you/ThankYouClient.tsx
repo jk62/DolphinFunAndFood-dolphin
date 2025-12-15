@@ -40,7 +40,7 @@ export default function ThankYouClient() {
           Message us on WhatsApp
         </a>
 
-        <div className="text-sm text-slate-600">
+        {/* <div className="text-sm text-slate-600">
           Prefer email?{" "}
           <a
             href="mailto:info@dolphinfunandfood.com"
@@ -48,7 +48,7 @@ export default function ThankYouClient() {
           >
             info@dolphinfunandfood.com
           </a>
-        </div>
+        </div> */}
 
         <div className="pt-6">
           <Link

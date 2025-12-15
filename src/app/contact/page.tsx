@@ -10,8 +10,8 @@ function waDigits(n: string) {
 
 export default function ContactPage() {
   const phoneDisplay =
-    process.env.NEXT_PUBLIC_PHONE_DISPLAY || "+91 93119 18385";
-  const phoneLink = process.env.NEXT_PUBLIC_PHONE_LINK || "+919311918385";
+    process.env.NEXT_PUBLIC_PHONE_DISPLAY || "+91 93119 18485";
+  const phoneLink = process.env.NEXT_PUBLIC_PHONE_LINK || "+919311918485";
   const mapsUrl =
     process.env.NEXT_PUBLIC_MAPS_URL ||
     "https://maps.app.goo.gl/R9DnVJBfFdkUCeeo8?g_st=iw";
@@ -24,7 +24,7 @@ export default function ContactPage() {
   const toEmail =
     process.env.NEXT_PUBLIC_CONTACT_EMAIL || "info@dolphinfunandfood.com";
 
-  const waRaw = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "+919311918385";
+  const waRaw = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "+919311918485";
   const wa = useMemo(() => waDigits(waRaw), [waRaw]);
 
   const mailtoHref = useMemo(() => {
