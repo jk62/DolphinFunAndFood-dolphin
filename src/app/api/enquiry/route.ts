@@ -38,9 +38,12 @@ export async function POST(req: Request) {
     // Send the email
     const { error } = await resend.emails.send({
       // from: "Dolphin Enquiries <info@dolphinfunandfood.com>",
-      from: "Dolphin Enquiries <info@send.dolphinfunandfood.com>",
+      // from: "Dolphin Enquiries <info@send.dolphinfunandfood.com>",
 
-      to: [TO],
+      // to: [TO],
+      from: "Dolphin Enquiries <info@dolphinfunandfood.com>",
+      to: "info@dolphinfunandfood.com",
+
       subject: `Banquet Enquiry: ${data.name} (${data.guests} guests)`,
       html: htmlTemplate(data),
       text: `
