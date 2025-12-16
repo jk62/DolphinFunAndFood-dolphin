@@ -6,7 +6,7 @@ import NavBar from "@/components/NavBar";
 import StickyCtas from "./components/StickyCtas";
 
 const SITE_URL = "https://www.dolphinfunandfood.com";
-const GOOGLE_ADS_ID = "AW-1776989853";
+const GOOGLE_ADS_ID = "AW-17769899853";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
