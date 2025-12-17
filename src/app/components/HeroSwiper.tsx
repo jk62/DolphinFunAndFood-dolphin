@@ -18,7 +18,7 @@ export default function HeroSwiper({
       autoplay={{ delay: 7000, disableOnInteraction: false }}
       slidesPerView={1}
     >
-      {slides.map((img) => (
+      {slides.map((img, index) => (
         <SwiperSlide key={img.src}>
           {/* <div className="relative w-full h-[60vh] md:h-[70vh]"> */}
           <div className="w-full aspect-[16/9] relative">
@@ -27,6 +27,7 @@ export default function HeroSwiper({
               src={img.src}
               alt={img.alt || ""}
               fill
+              priority={index === 0}
               className="object-cover"
             />
           </div>
