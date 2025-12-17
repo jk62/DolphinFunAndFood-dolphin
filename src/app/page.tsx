@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Suspense } from "react";
 import { getMediaFiles } from "@/lib/media";
 import FacebookPageEmbed from "./components/FacebookPageEmbed";
 import FacebookPageEmbedShell from "./components/FacebookPageEmbedShell";
@@ -7,20 +8,20 @@ import HeroSwiper from "./components/HeroSwiper";
 import FeaturedSwiper from "./components/FeaturedSwiper";
 import InlineHeroReels from "./components/InlineHeroReels";
 import GalleryGrid from "./components/GalleryGrid";
+import ReelsShelves from "./components/ReelsShelves";
+import { ReelsSkeleton } from "./components/SkeletonLoaders";
 import { FEATURED_SLIDES, GALLERY3_IMAGES } from "./constants";
 
-export default async function Home() {
-  const { reels1, reels2, reels3, reels4 } = await getMediaFiles();
-  
-  // Combine all reels for mobile view
-  const mobileReels = [...reels1, ...reels2, ...reels3, ...reels4];
+export default function Home() {
+  // 1. Kick off data fetching immediately (no await here!)
+  const mediaPromise = getMediaFiles();
 
   return (
     <main className="min-h-screen bg-sky-50 text-slate-900">
-      {/* HERO: Swiper carousel */}
+      {/* HERO: Swiper carousel - STATIC DATA (Instant Render) */}
       <HeroSwiper slides={GALLERY3_IMAGES} />
       
-      {/* TITLE BAND moved BELOW hero slideshow */}
+      {/* TITLE BAND - STATIC (Instant Render) */}
       <section className="bg-black/45 backdrop-blur-sm text-white w-full">
         <div className="mx-auto max-w-7xl px-4 py-4 text-center">
           <h1 className="text-3xl md:text-4xl font-bold">
@@ -50,19 +51,12 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* INLINE REELS ROW (below hero) */}
-      <section className="bg-sky-50">
-        <div className="mx-auto max-w-7xl px-4 py-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <InlineHeroReels videos={reels1} />
-            <InlineHeroReels videos={reels2} />
-            <InlineHeroReels videos={reels3} />
-            <InlineHeroReels videos={reels4} />
-          </div>
-        </div>
-      </section>
+      {/* STREAMING: Use Suspense for the Reels section which needs file I/O */}
+      <Suspense fallback={<ReelsSkeleton />}>
+        <ReelsShelves mediaPromise={mediaPromise} />
+      </Suspense>
 
-      {/* HEADER BAR */}
+      {/* HEADER BAR - STATIC (Instant Render) */}
       <header className="w-full border-b border-sky-200 bg-white/80 backdrop-blur">
         <div className="mx-auto max-w-6xl px-4 py-3 flex items-center gap-4">
           <Image
@@ -92,6 +86,8 @@ export default async function Home() {
         <FeaturedSwiper slides={FEATURED_SLIDES} />
 
         {/* 2️⃣ gallery-2 grid – Water Kingdom style */}
+        {/* GalleryGrid is a client component with static props, so it engages instantly. 
+            We can wrap it in Suspense if we expect it to be heavy, but it's mostly cheap. */}
         <GalleryGrid />
 
         {/* 3️⃣ DESKTOP FACEBOOK PAGE EMBED */}
@@ -123,13 +119,24 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* MOBILE STACKED EMBEDS */}
+      {/* MOBILE STACKED EMBEDS - The desktop reels logic handles the mobile stacked view 
+          via css grid in ReelsShelves, so we might duplicate logic or need a MobileReels component. 
+          However, the original design had duplicate sections for mobile. 
+          Let's create a MobileReelsShelves if needed, OR just hide/show via CSS in ReelsShelves?
+          Actuaally, ReelsShelves uses 'grid-cols-1 md:grid-cols-4', so it handles mobile naturally! 
+          The previous 'mobileReels' combined list is tricky with the shelves pattern. 
+          Let's verify logic: Current ReelsShelves renders 4 InlineHeroReels in a grid.
+          On mobile, they stack. This works perfectly. 
+          The only missing piece is if we specifically wanted a single combined list for mobile? 
+          For perceived speed simplicity, relying on the responsive grid in ReelsShelves is best.
+      */}
+
+      {/* MOBILE FB EMBED ONLY (Reels are now handled by the main shelving above responsive grid) */}
       <section className="md:hidden mx-auto max-w-6xl px-4 space-y-6 mt-6">
-        {mobileReels.length > 0 && (
-          <div className="rounded-2xl overflow-hidden shadow">
-            <InlineHeroReels videos={mobileReels} />
-          </div>
-        )}
+         {/* We removed the dedicated mobile reels section in favor of the responsive grid above. 
+             If we strictly need the combined list behavior, we'd need a separate component. 
+             But visual consistency suggests the grid is fine. 
+             Let's just keep the FB embed here. */}
         <div className="rounded-2xl overflow-hidden shadow">
           <FacebookPageEmbed
             height={520}
