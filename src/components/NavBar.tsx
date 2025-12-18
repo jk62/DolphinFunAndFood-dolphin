@@ -41,8 +41,13 @@ export default function NavBar() {
             Banquet Enquiry
           </Link>
 
+
           <Link href="/gallery" className="hover:text-sky-700">
             Gallery
+          </Link>
+
+          <Link href="/reviews" className="hover:text-sky-700 font-medium text-amber-600">
+            Reviews
           </Link>
 
           <Link
