@@ -1,5 +1,8 @@
 "use client";
 
+import { useRef } from "react";
+import type { Swiper as SwiperType } from "swiper";
+
 import { Review } from "@/app/reviews/data";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, EffectCoverflow } from "swiper/modules";
@@ -8,11 +11,16 @@ import "swiper/css/pagination";
 import "swiper/css/effect-coverflow";
 
 export default function VideoCarousel({ reviews }: { reviews: Review[] }) {
+  const swiperRef = useRef<SwiperType | null>(null);
+
   if (!reviews.length) return null;
 
   return (
     <div className="w-full py-8">
       <Swiper
+        onSwiper={(swiper) => {
+          swiperRef.current = swiper;
+        }}
         modules={[Autoplay, Pagination, EffectCoverflow]}
         effect="coverflow"
         grabCursor={true}
@@ -26,7 +34,7 @@ export default function VideoCarousel({ reviews }: { reviews: Review[] }) {
           slideShadows: true,
         }}
         pagination={{ clickable: true }}
-        autoplay={{ delay: 5000, disableOnInteraction: true }}
+        autoplay={{ delay: 5000, disableOnInteraction: false }}
         className="w-full !pb-12"
         breakpoints={{
             320: {
@@ -50,6 +58,15 @@ export default function VideoCarousel({ reviews }: { reviews: Review[] }) {
                    className="h-full w-full object-cover"
                    controls
                    playsInline
+                   onPlay={() => {
+                     swiperRef.current?.autoplay.stop();
+                   }}
+                   onPause={() => {
+                     swiperRef.current?.autoplay.start();
+                   }}
+                   onEnded={() => {
+                     swiperRef.current?.autoplay.start();
+                   }}
                  />
                ) : (
                  <div className="flex h-full items-center justify-center bg-sky-900 text-white p-6 text-center">

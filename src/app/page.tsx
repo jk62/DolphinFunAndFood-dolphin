@@ -100,8 +100,8 @@ export default function Home() {
           <div className="rounded-3xl shadow-lg bg-white p-6 md:p-10">
             <h3 className="text-2xl md:text-3xl font-semibold mb-3">Welcome</h3>
             <p className="text-slate-700 leading-relaxed">
-              A premium 8-acre destination on the highway — fine dining, grand
-              banquets, and a thrilling water park.
+              Largest water park of the NCR  — fine dining, grand
+              banquets, and striking cars and other fun activities for kids.
             </p>
             <p className="mt-4 text-slate-600">
               This is a placeholder page. We’ll be adding booking, menus,
