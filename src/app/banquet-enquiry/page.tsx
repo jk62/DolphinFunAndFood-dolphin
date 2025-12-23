@@ -122,10 +122,18 @@ export default function BanquetEnquiryPage() {
   }
 
   return (
-    <main className="mx-auto max-w-3xl px-4 py-10">
+    <main className="relative mx-auto max-w-3xl px-4 py-10">
+      <div className="absolute inset-0 -z-10 flex items-center justify-center opacity-30 pointer-events-none">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/images/form-background.jpg"
+          alt="Background"
+          className="w-3/4 max-w-md object-contain"
+        />
+      </div>
       <h1 className="text-3xl font-semibold mb-6">Banquet Enquiry</h1>
 
-      <form onSubmit={onSubmit} className="space-y-4" autoComplete="off">
+      <form onSubmit={onSubmit} className="space-y-4 relative" autoComplete="off">
         <div>
           <label className="block text-sm font-medium mb-1">Name *</label>
           <input

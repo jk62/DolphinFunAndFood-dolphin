@@ -12,14 +12,21 @@ import "swiper/css/effect-coverflow";
 
 export default function VideoCarousel({ reviews }: { reviews: Review[] }) {
   const swiperRef = useRef<SwiperType | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   if (!reviews.length) return null;
 
   return (
-    <div className="w-full py-8">
+    <div ref={containerRef} className="w-full py-8">
       <Swiper
         onSwiper={(swiper) => {
           swiperRef.current = swiper;
+        }}
+        onSlideChange={() => {
+          // Pause all videos when slide changes
+          containerRef.current
+            ?.querySelectorAll("video")
+            .forEach((video) => video.pause());
         }}
         modules={[Autoplay, Pagination, EffectCoverflow]}
         effect="coverflow"
