@@ -62,7 +62,7 @@ export default function VideoCarousel({ reviews }: { reviews: Review[] }) {
                {review.videoSrc ? (
                  <video
                    src={review.videoSrc}
-                   className="h-full w-full object-cover"
+                   className="absolute inset-0 h-full w-full object-cover"
                    controls
                    playsInline
                    onPlay={() => {

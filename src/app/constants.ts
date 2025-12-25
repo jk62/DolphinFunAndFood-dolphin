@@ -68,6 +68,16 @@ export const FEATURED_SLIDES = [
     alt: "Dolphin: Fun & Food, Showered with Buddha's Grace.",
     tagline: "Buddha Smiles Upon Dolphin: Your New Spot for Fun & Friends.",
   },
+  {
+    src: "/images/gallery/pic-14.jpg",
+    alt: "At Dolphin, Every Child Finds Their Smile.",
+    tagline: "Big Fun for Little Ones.",
+  },
+  {
+    src: "/images/gallery/pic-15.jpg",
+    alt: "At Dolphin, Every Child Finds Their Smile.",
+    tagline: "Smiles You Can’t Put a Price On.",
+  },
 ];
 
 //----------------------------------------
@@ -97,6 +107,14 @@ export const GALLERY2_FILES = [
   "pic-21.png",
   "pic-22.png",
   "pic-23.png",
+  "pic-24.jpg",
+  "pic-25.jpg",
+  "pic-26.jpg",
+  "pic-27.jpg",
+  "pic-28.jpg",
+  "pic-29.jpg",
+  "pic-30.jpg",
+  "pic-31.jpg",
 ];
 
 export const GALLERY2_IMAGES: GalleryItem[] = GALLERY2_FILES.map((file) => ({
@@ -141,6 +159,7 @@ export const GALLERY3_FILES = [
   "pic-31.png",
   "pic-32.png",
   "pic-33.jpg",
+  "pic-34.jpg",
 ];
 
 export const GALLERY3_IMAGES: GalleryItem[] = GALLERY3_FILES.map((file) => ({

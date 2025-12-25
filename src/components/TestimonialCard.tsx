@@ -47,7 +47,7 @@ export default function TestimonialCard({ review }: { review: Review }) {
              {/* Using standard video tag for simple preview - can be upgraded to custom player */}
             <video
               src={review.videoSrc}
-              className="h-full w-full object-cover"
+              className="absolute inset-0 h-full w-full object-cover"
               controls
               muted // Auto-mute for politeness
             />
