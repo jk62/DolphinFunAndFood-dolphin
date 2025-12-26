@@ -11,6 +11,8 @@ import GalleryGrid from "./components/GalleryGrid";
 import ReelsShelves from "./components/ReelsShelves";
 import { ReelsSkeleton } from "./components/SkeletonLoaders";
 import { FEATURED_SLIDES, GALLERY3_IMAGES } from "./constants";
+import GuestStories from "./components/GuestStories";
+import Footer from "./components/Footer";
 
 export default function Home() {
   // 1. Kick off data fetching immediately (no await here!)
@@ -90,6 +92,10 @@ export default function Home() {
             We can wrap it in Suspense if we expect it to be heavy, but it's mostly cheap. */}
         <GalleryGrid />
 
+        {/* 2.5️⃣ GUEST STORIES */}
+        <GuestStories />
+
+
         {/* 3️⃣ DESKTOP FACEBOOK PAGE EMBED */}
         <div className="hidden md:block mx-auto max-w-6xl px-4 pt-4">
           <FacebookPageEmbedShell />
@@ -147,12 +153,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer className="mt-16 border-t border-sky-200">
-        <div className="mx-auto max-w-6xl px-4 py-8 text-center text-sm text-slate-600">
-          © {new Date().getFullYear()} Dolphin Fun &amp; Food
-        </div>
-      </footer>
+      {/* NEW FOOTER */}
+      <Footer />
     </main>
   );
 }
