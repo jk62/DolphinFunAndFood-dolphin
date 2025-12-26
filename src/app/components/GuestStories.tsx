@@ -1,6 +1,6 @@
 "use client";
 import { Play, ChevronLeft, ChevronRight } from 'lucide-react';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 
 // Define the stories data based on available video files
 interface Story {
@@ -21,6 +21,10 @@ const stories: Story[] = [
   { id: 8, title: "Nice hospitality", author: "@guest_08", video: "/videos/review-reels/review-08.mp4" },
   { id: 9, title: "Lovely Atmosphere-Hydrabadi Biryani was too good", author: "@guest_09", video: "/videos/review-reels/review-9.mp4" },
   { id: 10, title: "Lajawab Khana", author: "@guest_10", video: "/videos/review-reels/review-10.mp4" },
+  { id: 11, title: "Great ambience. Food was very good", author: "@guest_11", video: "/videos/review-reels/review-11.mp4" },
+  { id: 12, title: "Khana, kids zone, service all very good", author: "@guest_12", video: "/videos/review-reels/review-12.mp4" },
+  { id: 13, title: "Amazing experience. Loved it", author: "@guest_13", video: "/videos/review-reels/review-13.mp4" },
+  { id: 14, title: "Best in the area", author: "@guest_14", video: "/videos/review-reels/review-14.mp4" },
 ];
 
 export default function GuestStories() {
@@ -80,6 +84,31 @@ function StoryCard({ story }: { story: Story }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // If less than 60% of the card is visible, pause it
+        if (!entry.isIntersecting && isPlaying) {
+          if (videoRef.current) {
+            videoRef.current.pause();
+            setIsPlaying(false);
+          }
+        }
+      },
+      { threshold: 0.6 }
+    );
+
+    if (cardRef.current) {
+      observer.observe(cardRef.current);
+    }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [isPlaying]);
+
   const togglePlay = () => {
     if (videoRef.current) {
       if (isPlaying) {
@@ -92,7 +121,7 @@ function StoryCard({ story }: { story: Story }) {
   };
   
   return (
-    <div className="min-w-[280px] md:min-w-[320px] h-[568px] relative rounded-3xl overflow-hidden shadow-lg group cursor-pointer snap-center bg-black">
+    <div ref={cardRef} className="min-w-[280px] md:min-w-[320px] h-[568px] relative rounded-3xl overflow-hidden shadow-lg group cursor-pointer snap-center bg-black">
       <video
         ref={videoRef}
         src={story.video}
